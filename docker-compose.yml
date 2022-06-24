@@ -1,0 +1,46 @@
+version: "3.7"
+services:
+  nodejs:
+    build: 
+      context: .
+    image: davidses/corren-app
+    depends_on:
+      - db
+    networks:
+      - frontend
+      - backend
+    environment:
+      - POSTGRES_NAME=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_HOST=corren-postgressapp
+      - POSTGRES_PORT=5432
+      - SECRET_KEY=coren_backend
+      - CLOUDINARY_CLOUD_NAME=dqft8x9bb
+      - CLOUDINARY_API_KEY=777887478881342
+      - CLOUDINARY_API_SECRET=-ezStfyC-SeZmdSUPoCp83bwxT0
+      - REMITA_API_URL=https://remitademo.net/remita
+      - REMITA_MERCHANT_ID=2547916
+      - REMITA_API_KEY=1946
+      - REMITA_SERVICE_TYPE_ID=4430731
+      - NODE_TLS_REJECT_UNAUTHORIZED='0'
+    volumes:
+      - ./www/:/var/www/html/
+    ports:
+      - "9007:6006"
+    container_name: corren-nodejs-app
+  db: 
+    image: postgres:14.1-alpine
+    restart: always
+    networks:
+      - backend
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=postgres
+      - POSTGRES_PASSWORD=root
+    ports:
+      - '9002:5432'
+    container_name: corren-postgressapp
+networks:
+  frontend:
+  backend:
